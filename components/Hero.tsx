@@ -1,7 +1,9 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import { Mail, ChevronDown } from "lucide-react";
+import { Mail, ChevronDown, ArrowDownRight } from "lucide-react";
 import { IconGithub } from "./icons";
+import Container from "@/components/ui/Container";
 
 const ROLES = [
   "Full-Stack Developer",
@@ -19,97 +21,89 @@ export default function Hero() {
     const role = ROLES[roleIdx];
     if (typing) {
       if (displayed.length < role.length) {
-        const t = setTimeout(() => setDisplayed(role.slice(0, displayed.length + 1)), 60);
-        return () => clearTimeout(t);
-      } else {
-        const t = setTimeout(() => setTyping(false), 1800);
+        const t = setTimeout(
+          () => setDisplayed(role.slice(0, displayed.length + 1)),
+          55
+        );
         return () => clearTimeout(t);
       }
-    } else {
-      if (displayed.length > 0) {
-        const t = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 35);
-        return () => clearTimeout(t);
-      } else {
-        setRoleIdx((i) => (i + 1) % ROLES.length);
-        setTyping(true);
-      }
+      const t = setTimeout(() => setTyping(false), 1800);
+      return () => clearTimeout(t);
     }
+    if (displayed.length > 0) {
+      const t = setTimeout(
+        () => setDisplayed(displayed.slice(0, -1)),
+        30
+      );
+      return () => clearTimeout(t);
+    }
+    setRoleIdx((i) => (i + 1) % ROLES.length);
+    setTyping(true);
   }, [displayed, typing, roleIdx]);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
-      {/* Background grid */}
+    <section className="relative min-h-screen flex flex-col justify-center section-padding overflow-hidden">
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-[0.35]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(99,102,241,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.15) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
+            "radial-gradient(circle at 20% 20%, #dbeafe 0%, transparent 50%), radial-gradient(circle at 80% 80%, #f4f4f5 0%, transparent 50%)",
         }}
       />
-      {/* Glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 text-center max-w-3xl mx-auto">
-        {/* Avatar */}
-        <div className="animate-float mb-8 inline-block">
-          <div className="w-28 h-28 mx-auto rounded-full gradient-border p-1">
-            <div className="w-full h-full rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-4xl font-bold text-white">
-              👨‍💻
-            </div>
+      <Container className="relative z-10">
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-light border border-accent/20 text-accent text-xs font-semibold mb-8 animate-fadeInUp">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+            Available for hire
+          </div>
+
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.1] mb-6 animate-fadeInUp">
+            안녕하세요,
+            <br />
+            <span className="font-display text-accent text-6xl md:text-7xl lg:text-8xl">
+              김현제
+            </span>
+            입니다
+          </h1>
+
+          <div className="h-9 flex items-center mb-6">
+            <p className="text-lg md:text-xl text-secondary font-medium">
+              {displayed}
+              <span className="cursor-blink text-accent ml-0.5">|</span>
+            </p>
+          </div>
+
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl mb-10 animate-fadeInUp">
+            사용자 경험을 중시하는 풀스택 개발자입니다. 깔끔한 코드와
+            세련된 UI로 문제를 해결하는 것을 즐깁니다.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3 animate-fadeInUp">
+            <a href="#contact" className="btn-primary">
+              <Mail className="w-4 h-4" />
+              Contact Me
+            </a>
+            <a
+              href="https://github.com/ranflir"
+              target="_blank"
+              rel="noreferrer"
+              className="btn-secondary"
+            >
+              <IconGithub className="w-4 h-4" />
+              GitHub
+              <ArrowDownRight className="w-3.5 h-3.5 opacity-50" />
+            </a>
           </div>
         </div>
-
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-900/40 border border-indigo-500/30 text-indigo-300 text-xs font-medium mb-6">
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          Available for hire
-        </div>
-
-        <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-4 animate-fadeInUp leading-tight">
-          안녕하세요,<br />
-          <span className="gradient-text">김현제</span>입니다
-        </h1>
-
-        <div className="h-10 flex items-center justify-center mb-6">
-          <p className="text-xl md:text-2xl text-slate-300 font-medium">
-            {displayed}
-            <span className="cursor-blink text-indigo-400 ml-0.5">|</span>
-          </p>
-        </div>
-
-        <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-10 animate-fadeInUp">
-          사용자 경험을 중시하는 풀스택 개발자입니다. 깔끔한 코드와 아름다운 UI로
-          문제를 해결하는 것을 즐깁니다.
-        </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-4 animate-fadeInUp">
-          <a
-            href="#contact"
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-all duration-200 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5"
-          >
-            <Mail className="w-4 h-4" />
-            Contact Me
-          </a>
-          <a
-            href="https://github.com/ranflir"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-indigo-500/50 text-white font-semibold transition-all duration-200 hover:-translate-y-0.5"
-          >
-            <IconGithub className="w-4 h-4" />
-            GitHub
-          </a>
-        </div>
-      </div>
+      </Container>
 
       <a
         href="#about"
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-400 transition-colors"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground hover:text-accent transition-colors cursor-pointer"
       >
-        <span className="text-xs">Scroll</span>
-        <ChevronDown className="w-5 h-5 animate-bounce" />
+        <span className="text-xs font-medium tracking-wide">Scroll</span>
+        <ChevronDown className="w-4 h-4 animate-bounce" />
       </a>
     </section>
   );
